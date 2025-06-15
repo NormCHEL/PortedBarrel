@@ -1,0 +1,16 @@
+[
+{
+  "modid": "portedbarrel",
+  "name": "Ported Barrel",
+  "description": "Just Barrel, which was ported to 1.7.10.",
+  "version": "1.0",
+  "mcversion": "1.7.10-1.0",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["NormChel"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,0 +1,105 @@
+---- Minecraft Crash Report ----
+// This doesn't make any sense!
+
+Time: 14.06.25 11:54
+Description: Rendering screen
+
+java.lang.ArrayIndexOutOfBoundsException: 27
+	at normchel.portedbarrel.common.StorageTile.getStackInSlot(StorageTile.java:20)
+	at net.minecraft.inventory.Slot.getStack(Slot.java:67)
+	at net.minecraft.client.gui.inventory.GuiContainer.func_146977_a(GuiContainer.java:201)
+	at net.minecraft.client.gui.inventory.GuiContainer.drawScreen(GuiContainer.java:99)
+	at net.minecraft.client.renderer.EntityRenderer.updateCameraAndRender(EntityRenderer.java:1061)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1001)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:898)
+	at net.minecraft.client.main.Main.main(SourceFile:148)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(Unknown Source)
+	at GradleStart.main(Unknown Source)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at normchel.portedbarrel.common.StorageTile.getStackInSlot(StorageTile.java:20)
+	at net.minecraft.inventory.Slot.getStack(Slot.java:67)
+	at net.minecraft.client.gui.inventory.GuiContainer.func_146977_a(GuiContainer.java:201)
+	at net.minecraft.client.gui.inventory.GuiContainer.drawScreen(GuiContainer.java:99)
+
+-- Screen render details --
+Details:
+	Screen name: normchel.portedbarrel.common.gui.GuiBarrel
+	Mouse location: Scaled: (320, 167). Absolute: (960, 500)
+	Screen size: Scaled: (640, 334). Absolute: (1920, 1001). Scale factor of 3
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityClientPlayerMP['Player109'/287, l='MpServer', x=95,35, y=5,62, z=-504,01]]
+	Chunk stats: MultiplayerChunkCache: 25, 25
+	Level seed: 0
+	Level generator: ID 01 - flat, ver 0. Features enabled: false
+	Level generator options: 
+	Level spawn location: World: (199,4,-426), Chunk: (at 7,0,6 in 12,-27; contains blocks 192,0,-432 to 207,255,-417), Region: (0,-1; contains chunks 0,-32 to 31,-1, blocks 0,0,-512 to 511,255,-1)
+	Level time: 112699 game time, 9626 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: creative (ID 1). Hardcore: false. Cheats: false
+	Forced entities: 16 total; [EntityClientPlayerMP['Player109'/287, l='MpServer', x=95,35, y=5,62, z=-504,01], EntityCow['Cow'/33, l='MpServer', x=77,69, y=4,00, z=-521,75], EntityCow['Cow'/34, l='MpServer', x=79,50, y=4,00, z=-479,78], EntitySheep['Sheep'/43, l='MpServer', x=93,81, y=4,00, z=-510,66], EntityCow['Cow'/44, l='MpServer', x=95,09, y=4,00, z=-487,13], EntityChicken['Chicken'/45, l='MpServer', x=96,91, y=4,00, z=-466,19], EntityChicken['Chicken'/46, l='MpServer', x=96,44, y=4,00, z=-466,56], EntitySheep['Sheep'/47, l='MpServer', x=85,70, y=4,00, z=-472,41], EntityPig['Pig'/85, l='MpServer', x=123,22, y=4,00, z=-527,38], EntityChicken['Chicken'/86, l='MpServer', x=117,44, y=4,00, z=-476,47], EntityChicken['Chicken'/87, l='MpServer', x=115,41, y=4,00, z=-479,53], EntitySheep['Sheep'/58, l='MpServer', x=103,09, y=4,00, z=-533,94], EntityCow['Cow'/59, l='MpServer', x=97,81, y=4,00, z=-520,13], EntityChicken['Chicken'/60, l='MpServer', x=106,71, y=4,00, z=-501,07], EntityItem['item.item.egg'/61, l='MpServer', x=106,25, y=4,13, z=-499,34], EntitySheep['Sheep'/62, l='MpServer', x=98,31, y=4,00, z=-470,22]]
+	Retry entities: 0 total; []
+	Server brand: fml,forge
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:373)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2444)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:919)
+	at net.minecraft.client.main.Main.main(SourceFile:148)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135)
+	at net.minecraft.launchwrapper.Launch.main(Launch.java:28)
+	at net.minecraftforge.gradle.GradleStartCommon.launch(Unknown Source)
+	at GradleStart.main(Unknown Source)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.7.10
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_452, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Amazon.com Inc.
+	Memory: 220984584 bytes (210 MB) / 597164032 bytes (569 MB) up to 2839543808 bytes (2708 MB)
+	JVM Flags: 0 total; 
+	AABB Pool Size: 0 (0 bytes; 0 MB) allocated, 0 (0 bytes; 0 MB) used
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP v9.05 FML v7.10.99.99 Minecraft Forge 10.13.4.1614 4 mods loaded, 4 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAAAA	mcp{9.05} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAAAA	FML{7.10.99.99} [Forge Mod Loader] (forgeBin-1.7.10-10.13.4.1614-1.7.10.jar) 
+	UCHIJAAAA	Forge{10.13.4.1614} [Minecraft Forge] (forgeBin-1.7.10-10.13.4.1614-1.7.10.jar) 
+	UCHIJAAAA	portedbarrel{1.0} [Ported Barrel] (portedbarrel-1.0.jar) 
+	GL info: ' Vendor: 'Intel' Version: '4.6.0 - Build 31.0.101.2115' Renderer: 'Intel(R) HD Graphics 520'
+	Launched Version: 1.7.10
+	LWJGL: 2.9.1
+	OpenGL: Intel(R) HD Graphics 520 GL version 4.6.0 - Build 31.0.101.2115, Intel
+	GL Caps: Using GL 1.3 multitexturing.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Anisotropic filtering is supported and maximum anisotropy is 16.
+Shaders are available because OpenGL 2.1 is supported.
+
+	Is Modded: Definitely; Client brand changed to 'fml,forge'
+	Type: Client (map_client.txt)
+	Resource Packs: []
+	Current Language: English (US)
+	Profiler Position: N/A (disabled)
+	Vec3 Pool Size: 0 (0 bytes; 0 MB) allocated, 0 (0 bytes; 0 MB) used
+	Anisotropic Filtering: Off (1)
