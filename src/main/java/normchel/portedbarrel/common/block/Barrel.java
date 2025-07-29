@@ -1,24 +1,31 @@
 package normchel.portedbarrel.common.block;
 
+
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+
 import net.minecraft.block.material.Material;
+
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import normchel.portedbarrel.PortedBarrel;
-import normchel.portedbarrel.common.StorageTile;
 
-public class Barrel extends BlockContainer {
+import normchel.portedbarrel.common.tileentities.TileEntityBarrel;
 
+public class Barrel extends Block {
 
     @SideOnly(Side.CLIENT)
     private IIcon topIcon;
@@ -30,6 +37,7 @@ public class Barrel extends BlockContainer {
     private IIcon sideIcon;
     @SideOnly(Side.CLIENT)
     private IIcon sideTurnedIcon;
+    public static final int GUI_BARREL = 0;
 
 
     protected Barrel() {
@@ -43,10 +51,6 @@ public class Barrel extends BlockContainer {
 
     }
 
-    @Override
-    public TileEntity createNewTileEntity(World world, int i) {
-        return new StorageTile();
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -100,51 +104,98 @@ public class Barrel extends BlockContainer {
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
         if (meta == 0) { // вниз
-            if (side == 0) return bottomIcon; // лицом вниз
-            if (side == 1) return topIcon; // зад вверх
+            if (side == 1) return topIcon;
+            if (side == 0) return bottomIcon;
             return sideIcon;
         } else if (meta == 1) { // вверх
-            if (side == 1) return bottomIcon; // лицом вверх
-            if (side == 0) return topIcon; // зад вниз
+            if (side == 0) return topIcon; // лицом вверх
+            if (side == 1) return bottomIcon; // зад вниз
             return sideIcon;
-
         } else {
             // Горизонтальное направление
             if (side == meta) return bottomIcon; // лицевая сторона
             if (side == getOpposite(meta)) return topIcon; // задняя сторона
-            if (side==0 | side==1 && (meta==4 || meta==5)) return sideTurnedIcon;
-            if (side==0 | side==1 && (meta==3 || meta==2)) return sideIcon;
-            return sideTurnedIcon;
+
+
+            if (side==1 && (meta==2 || meta==3)){
+                return sideIcon;
+            } else if (side==0 && (meta==4 || meta==5)) {
+                return sideTurnedIcon;
+            } else if (side==0 && (meta==2 || meta==3)) {
+                return sideIcon;
+            }
+            else return sideTurnedIcon;
         }
     }
 
     private int getOpposite(int side) {
         switch (side) {
-            case 0:
-                return 1;
-            case 1:
-                return 0;
-            case 2:
-                return 3;
-            case 3:
-                return 2;
-            case 4:
-                return 5;
-            case 5:
-                return 4;
-            default:
-                return side;
+            case 0: return 1;
+            case 1: return 0;
+            case 2: return 3;
+            case 3: return 2;
+            case 4: return 5;
+            case 5: return 4;
+            default: return side;
         }
     }
 
-    @Override
-    public boolean onBlockActivated(World world, int x, int y, int z,
-                                    EntityPlayer player, int side,
-                                    float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player,
+                                    int side, float hitX, float hitY, float hitZ) {
+
         if (!world.isRemote) {
-            player.openGui(PortedBarrel.instance, 0, world, x, y, z); // ID = 0
+            player.openGui(PortedBarrel.instance, PortedBarrel.GUI_BARREL, world, x, y, z);
         }
         return true;
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof IInventory) {
+            IInventory inv = (IInventory) tile;
+
+            for (int i = 0; i < inv.getSizeInventory(); ++i) {
+                ItemStack itemstack = inv.getStackInSlot(i);
+
+                if (itemstack != null) {
+                    float f = world.rand.nextFloat() * 0.8F + 0.1F;
+                    float f1 = world.rand.nextFloat() * 0.8F + 0.1F;
+                    float f2 = world.rand.nextFloat() * 0.8F + 0.1F;
+
+                    while (itemstack.stackSize > 0) {
+                        int j = world.rand.nextInt(21) + 10;
+
+                        if (j > itemstack.stackSize) {
+                            j = itemstack.stackSize;
+                        }
+
+                        itemstack.stackSize -= j;
+                        ItemStack dropped = new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage());
+
+                        if (itemstack.hasTagCompound()) {
+                            dropped.setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                        }
+
+                        EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, dropped);
+                        world.spawnEntityInWorld(entityitem);
+                    }
+                }
+            }
+
+            world.func_147453_f(x, y, z, block); // уведомление соседям
+        }
+
+        super.breakBlock(world, x, y, z, block, meta);
+    }
+
+    @Override
+    public boolean hasTileEntity(int metadata) {
+        return true;
+    }
+    @Override
+    public TileEntity createTileEntity(World world, int meta) {
+        return new TileEntityBarrel();
     }
 }
 
